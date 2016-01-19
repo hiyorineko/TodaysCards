@@ -1,6 +1,7 @@
 package com.example.hiyoriaya.todayscards;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,12 +15,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
+import com.squareup.picasso.Picasso;
 
 public class MainActivity extends Activity implements View.OnClickListener{
-    private Thread th;
     private Bitmap oBmp;
     private ImageView iv;
     private String[] wsurl;
@@ -30,12 +28,14 @@ public class MainActivity extends Activity implements View.OnClickListener{
     private int bfc;
     private Spinner spinner;
     private String[] mStrings;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         iv = (ImageView)findViewById(R.id.iv);
+        context = this;
         seturl();
         Button back = (Button)findViewById(R.id.back);
         back.setOnClickListener(this);
@@ -53,91 +53,14 @@ public class MainActivity extends Activity implements View.OnClickListener{
                 String item = (String) spinner.getSelectedItem();
                 switch (spinner.getSelectedItemPosition()) {
                     case 0:
-                        try {
-                            //androidはスレッド処理じゃないとhttp接続できないため
-                            th = new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        //画像のURLを直うち
-                                        URL url = new URL(vgurl[vgc]);
-                                        //インプットストリームで画像を読み込む
-                                        InputStream istream = url.openStream();
-                                        //読み込んだファイルをビットマップに変換
-                                        oBmp = BitmapFactory.decodeStream(istream);
-                                        //インプットストリームを閉じる
-                                        istream.close();
-                                    } catch (IOException e) {
-                                        Resources r = getResources();
-                                        oBmp = BitmapFactory.decodeResource(r, R.drawable.error);
-                                    }
-                                }
-                            });
-                            th.start();
-                            th.join();
-                        } catch (InterruptedException ie) {
-                        }
-                        //ビットマップをImageViewに設定
-                        iv.setImageBitmap(oBmp);
+                        Picasso.with(context).load(vgurl[vgc]).into(iv);
                         break;
                     case 1:
-                        try {
-                            //androidはスレッド処理じゃないとhttp接続できないため
-                            th = new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        //画像のURLを直うち
-                                        URL url = new URL(wsurl[wsc]);
-                                        //インプットストリームで画像を読み込む
-                                        InputStream istream = url.openStream();
-                                        //読み込んだファイルをビットマップに変換
-                                        oBmp = BitmapFactory.decodeStream(istream);
-                                        //インプットストリームを閉じる
-                                        istream.close();
-
-                                    } catch (IOException e) {
-                                        Resources r = getResources();
-                                        oBmp = BitmapFactory.decodeResource(r, R.drawable.error);
-                                    }
-                                }
-                            });
-                            th.start();
-                            th.join();
-                        } catch (InterruptedException ie) {
-                        }
-                        //ビットマップをImageViewに設定
-                        iv.setImageBitmap(oBmp);
+                        Picasso.with(context).load(wsurl[wsc]).into(iv);
                         break;
 
                     case 2:
-                        try {
-                            //androidはスレッド処理じゃないとhttp接続できないため
-                            th = new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        //画像のURLを直うち
-                                        URL url = new URL(bfurl[bfc]);
-                                        //インプットストリームで画像を読み込む
-                                        InputStream istream = url.openStream();
-                                        //読み込んだファイルをビットマップに変換
-                                        oBmp = BitmapFactory.decodeStream(istream);
-                                        //インプットストリームを閉じる
-                                        istream.close();
-
-                                    } catch (IOException e) {
-                                        Resources r = getResources();
-                                        oBmp = BitmapFactory.decodeResource(r, R.drawable.error);
-                                    }
-                                }
-                            });
-                            th.start();
-                            th.join();
-                        } catch (InterruptedException ie) {
-                        }
-                        //ビットマップをImageViewに設定
-                        iv.setImageBitmap(oBmp);
+                        Picasso.with(context).load(bfurl[bfc]).into(iv);
                         break;
                 }
             }
@@ -204,105 +127,28 @@ public class MainActivity extends Activity implements View.OnClickListener{
             case R.id.forward:
                 switch (spinner.getSelectedItemPosition()) {
                     case 0:
-                        if (vgc == 3) {
-                            vgc=0;
-                        } else {
+                        if (vgc != 3) {
                             vgc++;
+                        } else {
+                            vgc = 0;
                         }
-                        try {
-                            //androidはスレッド処理じゃないとhttp接続できないため
-                            th = new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        //画像のURLを直うち
-                                        URL url = new URL(vgurl[vgc]);
-                                        //インプットストリームで画像を読み込む
-                                        InputStream istream = url.openStream();
-                                        //読み込んだファイルをビットマップに変換
-                                        oBmp = BitmapFactory.decodeStream(istream);
-                                        //インプットストリームを閉じる
-                                        istream.close();
-                                    } catch (IOException e) {
-                                        Resources r = getResources();
-                                        oBmp = BitmapFactory.decodeResource(r, R.drawable.error);
-                                    }
-                                }
-                            });
-                            th.start();
-                            th.join();
-                        } catch (InterruptedException ie) {
-                        }
-                        //ビットマップをImageViewに設定
-                        iv.setImageBitmap(oBmp);
+                        Picasso.with(this).load(vgurl[vgc]).into(iv);
                         break;
                     case 1:
-                        if (wsc == 24) {
-                            wsc = 0;
-                        } else {
+                        if (wsc != 24) {
                             wsc++;
+                        } else {
+                            wsc=0;
                         }
-                        try {
-                            //androidはスレッド処理じゃないとhttp接続できないため
-                            th = new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        //画像のURLを直うち
-                                        URL url = new URL(wsurl[wsc]);
-                                        //インプットストリームで画像を読み込む
-                                        InputStream istream = url.openStream();
-                                        //読み込んだファイルをビットマップに変換
-                                        oBmp = BitmapFactory.decodeStream(istream);
-                                        //インプットストリームを閉じる
-                                        istream.close();
-
-                                    } catch (IOException e) {
-                                        Resources r = getResources();
-                                        oBmp = BitmapFactory.decodeResource(r, R.drawable.error);
-                                    }
-                                }
-                            });
-                            th.start();
-                            th.join();
-                        } catch (InterruptedException ie) {
-                        }
-                        //ビットマップをImageViewに設定
-                        iv.setImageBitmap(oBmp);
+                        Picasso.with(this).load(wsurl[wsc]).into(iv);
                         break;
                     case 2:
-                        if (bfc == 3) {
-                            bfc = 0;
-                        } else {
+                        if (bfc != 3) {
                             bfc++;
+                        } else {
+                            bfc=0;
                         }
-                        try {
-                            //androidはスレッド処理じゃないとhttp接続できないため
-                            th = new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        //画像のURLを直うち
-                                        URL url = new URL(bfurl[bfc]);
-                                        //インプットストリームで画像を読み込む
-                                        InputStream istream = url.openStream();
-                                        //読み込んだファイルをビットマップに変換
-                                        oBmp = BitmapFactory.decodeStream(istream);
-                                        //インプットストリームを閉じる
-                                        istream.close();
-
-                                    } catch (IOException e) {
-                                        Resources r = getResources();
-                                        oBmp = BitmapFactory.decodeResource(r, R.drawable.error);
-                                    }
-                                }
-                            });
-                            th.start();
-                            th.join();
-                        } catch (InterruptedException ie) {
-                        }
-                        //ビットマップをImageViewに設定
-                        iv.setImageBitmap(oBmp);
+                        Picasso.with(this).load(bfurl[bfc]).into(iv);
                         break;
                 }
             case R.id.back:
@@ -313,32 +159,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
                                 } else {
                                     vgc = 3;
                                 }
-                                try {
-                                    //androidはスレッド処理じゃないとhttp接続できないため
-                                    th = new Thread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            try {
-                                                //画像のURLを直うち
-                                                URL url = new URL(vgurl[vgc]);
-                                                //インプットストリームで画像を読み込む
-                                                InputStream istream = url.openStream();
-                                                //読み込んだファイルをビットマップに変換
-                                                oBmp = BitmapFactory.decodeStream(istream);
-                                                //インプットストリームを閉じる
-                                                istream.close();
-                                            } catch (IOException e) {
-                                                Resources r = getResources();
-                                                oBmp = BitmapFactory.decodeResource(r, R.drawable.error);
-                                            }
-                                        }
-                                    });
-                                    th.start();
-                                    th.join();
-                                } catch (InterruptedException ie) {
-                                }
-                                //ビットマップをImageViewに設定
-                                iv.setImageBitmap(oBmp);
+                                Picasso.with(this).load(vgurl[vgc]).into(iv);
                                 break;
                             case 1:
                                 if (wsc != 0) {
@@ -346,33 +167,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
                                 } else {
                                     wsc = 24;
                                 }
-                                try {
-                                    //androidはスレッド処理じゃないとhttp接続できないため
-                                    th = new Thread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            try {
-                                                //画像のURLを直うち
-                                                URL url = new URL(wsurl[wsc]);
-                                                //インプットストリームで画像を読み込む
-                                                InputStream istream = url.openStream();
-                                                //読み込んだファイルをビットマップに変換
-                                                oBmp = BitmapFactory.decodeStream(istream);
-                                                //インプットストリームを閉じる
-                                                istream.close();
-
-                                            } catch (IOException e) {
-                                                Resources r = getResources();
-                                                oBmp = BitmapFactory.decodeResource(r, R.drawable.error);
-                                            }
-                                        }
-                                    });
-                                    th.start();
-                                    th.join();
-                                } catch (InterruptedException ie) {
-                                }
-                                //ビットマップをImageViewに設定
-                                iv.setImageBitmap(oBmp);
+                                Picasso.with(this).load(wsurl[wsc]).into(iv);
                                 break;
                             case 2:
                                 if (bfc != 0) {
@@ -380,33 +175,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
                                 } else {
                                     bfc = 3;
                                 }
-                                try {
-                                    //androidはスレッド処理じゃないとhttp接続できないため
-                                    th = new Thread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            try {
-                                                //画像のURLを直うち
-                                                URL url = new URL(bfurl[bfc]);
-                                                //インプットストリームで画像を読み込む
-                                                InputStream istream = url.openStream();
-                                                //読み込んだファイルをビットマップに変換
-                                                oBmp = BitmapFactory.decodeStream(istream);
-                                                //インプットストリームを閉じる
-                                                istream.close();
-
-                                            } catch (IOException e) {
-                                                Resources r = getResources();
-                                                oBmp = BitmapFactory.decodeResource(r, R.drawable.error);
-                                            }
-                                        }
-                                    });
-                                    th.start();
-                                    th.join();
-                                } catch (InterruptedException ie) {
-                                }
-                                //ビットマップをImageViewに設定
-                                iv.setImageBitmap(oBmp);
+                                Picasso.with(this).load(bfurl[bfc]).into(iv);
                                 break;
                         }
                 }
