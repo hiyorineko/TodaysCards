@@ -2,9 +2,7 @@ package com.example.hiyoriaya.todayscards;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -67,9 +65,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                Resources r = getResources();
-                oBmp = BitmapFactory.decodeResource(r, R.drawable.error);
-                iv.setImageBitmap(oBmp);
+
             }
         });
     }
@@ -123,35 +119,34 @@ public class MainActivity extends Activity implements View.OnClickListener{
     }
 
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.forward:
-                switch (spinner.getSelectedItemPosition()) {
-                    case 0:
-                        if (vgc != 3) {
-                            vgc++;
-                        } else {
-                            vgc = 0;
-                        }
-                        Picasso.with(this).load(vgurl[vgc]).into(iv);
-                        break;
-                    case 1:
-                        if (wsc != 24) {
-                            wsc++;
-                        } else {
-                            wsc=0;
-                        }
-                        Picasso.with(this).load(wsurl[wsc]).into(iv);
-                        break;
-                    case 2:
-                        if (bfc != 3) {
-                            bfc++;
-                        } else {
-                            bfc=0;
-                        }
-                        Picasso.with(this).load(bfurl[bfc]).into(iv);
-                        break;
-                }
-            case R.id.back:
+        if(v.getId()==R.id.forward) {
+            switch (spinner.getSelectedItemPosition()) {
+                case 0:
+                    if (vgc != 3) {
+                        vgc++;
+                    } else {
+                        vgc = 0;
+                    }
+                    Picasso.with(this).load(vgurl[vgc]).into(iv);
+                    break;
+                case 1:
+                    if (wsc != 24) {
+                        wsc++;
+                    } else {
+                        wsc = 0;
+                    }
+                    Picasso.with(this).load(wsurl[wsc]).into(iv);
+                    break;
+                case 2:
+                    if (bfc != 3) {
+                        bfc++;
+                    } else {
+                        bfc = 0;
+                    }
+                    Picasso.with(this).load(bfurl[bfc]).into(iv);
+                    break;
+            }
+        }else if(v.getId()==R.id.back){
                     switch (spinner.getSelectedItemPosition()) {
                             case 0:
                                 if (vgc != 0) {
@@ -177,9 +172,9 @@ public class MainActivity extends Activity implements View.OnClickListener{
                                 }
                                 Picasso.with(this).load(bfurl[bfc]).into(iv);
                                 break;
-                        }
-                }
+                    }
         }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -194,12 +189,10 @@ public class MainActivity extends Activity implements View.OnClickListener{
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

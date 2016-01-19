@@ -12,36 +12,37 @@
 
     <ImageView
         android:layout_width="fill_parent"
-        android:layout_height="match_parent"
+        android:layout_height="fill_parent"
         android:id="@+id/iv"
         android:layout_below="@+id/spinner"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        />
+
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:text="←"
+        android:id="@+id/back"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:text="→"
+        android:id="@+id/forward"
+        android:layout_alignBottom="@+id/iv"
+        android:layout_alignRight="@+id/iv"
+        android:layout_alignEnd="@+id/iv" />
 
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/spinner"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:text="　　　　　←　　　　　"
-        android:id="@+id/back"
-        android:layout_alignBottom="@+id/iv"
-        android:layout_toLeftOf="@+id/forward"
-        android:layout_toStartOf="@+id/forward" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:text="　　　　　→　　　　　"
-        android:id="@+id/forward"
-        android:layout_alignBottom="@+id/iv"
-        android:layout_alignRight="@+id/iv"
-        android:layout_alignEnd="@+id/iv" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
