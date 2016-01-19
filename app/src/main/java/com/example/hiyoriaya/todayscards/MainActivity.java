@@ -3,6 +3,7 @@ package com.example.hiyoriaya.todayscards;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,12 +13,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 public class MainActivity extends Activity implements View.OnClickListener{
     private Bitmap oBmp;
     private ImageView iv;
+    private TextView em;
     private String[] wsurl;
     private String[] vgurl;
     private String[] bfurl;
@@ -27,22 +30,46 @@ public class MainActivity extends Activity implements View.OnClickListener{
     private Spinner spinner;
     private String[] mStrings;
     private Context context;
+    private Picasso pic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         iv = (ImageView)findViewById(R.id.iv);
+        em = (TextView)findViewById(R.id.em);
         context = this;
         seturl();
+
         Button back = (Button)findViewById(R.id.back);
         back.setOnClickListener(this);
         Button forward = (Button)findViewById(R.id.forward);
         forward.setOnClickListener(this);
-        spinner = (Spinner)findViewById(R.id.spinner);
+
+        Picasso.Builder builder = new Picasso.Builder(getApplicationContext());
+        builder.listener(new Picasso.Listener() {
+            @Override
+            public void onImageLoadFailed(Picasso arg0, Uri uri,Exception e) {
+                switch(spinner.getSelectedItemPosition()) {
+                    case 0:
+                        em.setText("URL:"+vgurl[vgc]+"は今は使用されていません。");
+                        break;
+                    case 1:
+                        em.setText("URL:"+wsurl[wsc]+"は今は使用されていません。");
+                        break;
+                    case 2:
+                        em.setText("URL:"+bfurl[bfc]+"は今は使用されていません。");
+                        break;
+
+                }
+                }
+            });
+        pic = builder.build();
+
+        spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, mStrings);
         spinner.setAdapter(adapter);
-
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent,
@@ -51,14 +78,14 @@ public class MainActivity extends Activity implements View.OnClickListener{
                 String item = (String) spinner.getSelectedItem();
                 switch (spinner.getSelectedItemPosition()) {
                     case 0:
-                        Picasso.with(context).load(vgurl[vgc]).into(iv);
+                        pic.load(vgurl[vgc]).into(iv);
                         break;
                     case 1:
-                        Picasso.with(context).load(wsurl[wsc]).into(iv);
+                        pic.load(wsurl[wsc]).into(iv);
                         break;
 
                     case 2:
-                        Picasso.with(context).load(bfurl[bfc]).into(iv);
+                        pic.load(bfurl[bfc]).into(iv);
                         break;
                 }
             }
@@ -127,7 +154,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
                     } else {
                         vgc = 0;
                     }
-                    Picasso.with(this).load(vgurl[vgc]).into(iv);
+                    pic.load(vgurl[vgc]).into(iv);
                     break;
                 case 1:
                     if (wsc != 24) {
@@ -135,7 +162,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
                     } else {
                         wsc = 0;
                     }
-                    Picasso.with(this).load(wsurl[wsc]).into(iv);
+                    pic.load(wsurl[wsc]).into(iv);
                     break;
                 case 2:
                     if (bfc != 3) {
@@ -143,7 +170,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
                     } else {
                         bfc = 0;
                     }
-                    Picasso.with(this).load(bfurl[bfc]).into(iv);
+                    pic.load(bfurl[bfc]).into(iv);
                     break;
             }
         }else if(v.getId()==R.id.back){
@@ -154,7 +181,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
                                 } else {
                                     vgc = 3;
                                 }
-                                Picasso.with(this).load(vgurl[vgc]).into(iv);
+                                pic.load(vgurl[vgc]).into(iv);
                                 break;
                             case 1:
                                 if (wsc != 0) {
@@ -162,7 +189,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
                                 } else {
                                     wsc = 24;
                                 }
-                                Picasso.with(this).load(wsurl[wsc]).into(iv);
+                                pic.load(wsurl[wsc]).into(iv);
                                 break;
                             case 2:
                                 if (bfc != 0) {
@@ -170,7 +197,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
                                 } else {
                                     bfc = 3;
                                 }
-                                Picasso.with(this).load(bfurl[bfc]).into(iv);
+                                pic.load(bfurl[bfc]).into(iv);
                                 break;
                     }
         }
