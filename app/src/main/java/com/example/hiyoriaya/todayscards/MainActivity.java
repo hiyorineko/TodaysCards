@@ -78,13 +78,16 @@ public class MainActivity extends Activity implements View.OnClickListener{
                 String item = (String) spinner.getSelectedItem();
                 switch (spinner.getSelectedItemPosition()) {
                     case 0:
+                        em.setText("URL:"+vgurl[vgc]+"を読込んでいます。");
                         pic.load(vgurl[vgc]).into(iv);
                         break;
                     case 1:
+                        em.setText("URL:"+wsurl[wsc]+"を読込んでいます。");
                         pic.load(wsurl[wsc]).into(iv);
                         break;
 
                     case 2:
+                        em.setText("URL:"+bfurl[bfc]+"を読込んでいます。");
                         pic.load(bfurl[bfc]).into(iv);
                         break;
                 }
