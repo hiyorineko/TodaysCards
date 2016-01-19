@@ -154,6 +154,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
                     } else {
                         vgc = 0;
                     }
+                    em.setText("URL:"+vgurl[vgc]+"を読込んでいます。");
                     pic.load(vgurl[vgc]).into(iv);
                     break;
                 case 1:
@@ -162,6 +163,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
                     } else {
                         wsc = 0;
                     }
+                    em.setText("URL:"+wsurl[wsc]+"を読込んでいます。");
                     pic.load(wsurl[wsc]).into(iv);
                     break;
                 case 2:
@@ -170,6 +172,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
                     } else {
                         bfc = 0;
                     }
+                    em.setText("URL:"+bfurl[bfc]+"を読込んでいます。");
                     pic.load(bfurl[bfc]).into(iv);
                     break;
             }
@@ -181,6 +184,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
                                 } else {
                                     vgc = 3;
                                 }
+                                em.setText("URL:"+vgurl[vgc]+"を読込んでいます。");
                                 pic.load(vgurl[vgc]).into(iv);
                                 break;
                             case 1:
@@ -189,6 +193,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
                                 } else {
                                     wsc = 24;
                                 }
+                                em.setText("URL:"+wsurl[wsc]+"を読込んでいます。");
                                 pic.load(wsurl[wsc]).into(iv);
                                 break;
                             case 2:
@@ -197,6 +202,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
                                 } else {
                                     bfc = 3;
                                 }
+                                em.setText("URL:"+bfurl[bfc]+"を読込んでいます。");
                                 pic.load(bfurl[bfc]).into(iv);
                                 break;
                     }
